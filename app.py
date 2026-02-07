@@ -29,7 +29,7 @@ def get_client():
     return None
 
 client = get_client()
-MODEL_NAME = "llama3-70b-8192"
+MODEL_NAME = "openai/gpt-oss-120b"
 
 def extract_text_from_pdf(file):
     text = ""
@@ -190,3 +190,4 @@ if uploaded_file is not None:
 
 else:
     st.info("👈 왼쪽 사이드바에서 PDF 파일을 업로드해주세요.")
+
