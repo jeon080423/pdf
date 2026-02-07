@@ -3,6 +3,7 @@ import os
 import PyPDF2
 from dotenv import load_dotenv
 from openai import OpenAI
+from groq import Gro
 
 # Load environment variables
 load_dotenv()
@@ -13,7 +14,26 @@ st.set_page_config(
     page_icon="📄",
     layout="wide"
 )
+client = Groq()
+completion = client.chat.completions.create(
+    model="openai/gpt-oss-120b",
+    messages=[
+      {
+        "role": "user",
+        "content": ""
+      }
+    ],
+    temperature=1,
+    max_completion_tokens=8192,
+    top_p=1,
+    reasoning_effort="medium",
+    stream=True,
+    stop=None
+)
 
+for chunk in completion:
+    print(chunk.choices[0].delta.content or "", end="")
+    
 # Initialize API Client
 def get_client():
     api_key = os.getenv("GROQ_API_KEY")
@@ -190,4 +210,5 @@ if uploaded_file is not None:
 
 else:
     st.info("👈 왼쪽 사이드바에서 PDF 파일을 업로드해주세요.")
+
 
